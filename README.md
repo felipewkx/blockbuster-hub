@@ -2,7 +2,7 @@
 -------
 A full-stack-inspired digital rental simulator that brings back the 90s video store experience. This project uses the TMDB API to create a functional "Rent & Return" ecosystem for movies, series, cartoons, and games.
 
-LIVE DEMO: 
+LIVE DEMO: https://felipewkx.github.io/blockbuster-hub/
 --
 
 
