@@ -39,7 +39,11 @@ body {
   z-index: -1;
   background:
     radial-gradient(ellipse 120% 80% at 50% -20%, var(--glow), transparent 55%),
-    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(229, 9, 20, 0.08), transparent 50%),
+    radial-gradient(
+      ellipse 60% 40% at 100% 50%,
+      rgba(229, 9, 20, 0.08),
+      transparent 50%
+    ),
     linear-gradient(180deg, #0d0b12 0%, var(--bg-deep) 45%, #050408 100%);
   pointer-events: none;
 }
@@ -85,7 +89,7 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, #ffffff 100%);
   box-shadow: 0 0 24px var(--accent-soft);
   flex-shrink: 0;
 }
@@ -133,7 +137,9 @@ body {
   border: none;
   border-radius: 999px;
   cursor: pointer;
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
 }
 
 .lang-btn:hover {
@@ -165,7 +171,11 @@ body {
   border: 1px solid transparent;
   border-radius: 999px;
   cursor: pointer;
-  transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .tabs button:hover {
@@ -183,7 +193,7 @@ body {
 /* —— Layout —— */
 .layout {
   display: grid;
-  grid-template-columns: minmax(200px, 240px) minmax(0, 1fr) minmax(200px, 260px);
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 260px);
   gap: 0;
   min-height: calc(100vh - var(--header-h));
   max-width: 1680px;
@@ -236,7 +246,11 @@ body {
   flex-direction: column;
   min-width: 0;
   padding: 1rem 1.25rem 2rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 28%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02) 0%,
+    transparent 28%
+  );
 }
 
 /* —— Search —— */
@@ -265,7 +279,9 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 #search::placeholder {
@@ -368,7 +384,10 @@ body {
   background: var(--bg-panel-solid);
   border: 1px solid var(--border);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.2s;
 }
 
 @media (hover: hover) {
@@ -464,7 +483,9 @@ body {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    transform 0.15s;
 }
 
 .btn:active {
@@ -490,6 +511,17 @@ body {
 
 .btn-ghost:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-top3 {
+  padding: 0.45rem 0.5rem;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid rgba(229, 9, 20, 0.45);
+}
+
+.btn-top3:hover {
+  filter: brightness(1.08);
 }
 
 .btn-small {
@@ -571,15 +603,8 @@ body {
 /* —— Tablet —— */
 @media (max-width: 1024px) {
   .layout {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: auto auto;
-  }
-
-  .panel.left {
-    grid-column: 1;
-    grid-row: 2;
-    border-width: 1px 1px 0 0;
-    max-height: 220px;
   }
 
   .main {
@@ -589,7 +614,7 @@ body {
   }
 
   .panel.right {
-    grid-column: 2;
+    grid-column: 1;
     grid-row: 2;
     border-width: 1px 0 0 0;
     max-height: 220px;
@@ -635,14 +660,8 @@ body {
     border-bottom: none;
   }
 
-  .panel.left {
-    order: 2;
-    max-height: 200px;
-    border-width: 1px 0 0 0;
-  }
-
   .panel.right {
-    order: 3;
+    order: 2;
     max-height: 240px;
     border-width: 1px 0 0 0;
   }

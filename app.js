@@ -1,5 +1,4 @@
 const TMDB_KEY = "1c90fb1c06e5d1be12b11c98ac3fe7f8";
-const RAWG_KEY = "b7b2e7daa8f44458b52095d09ad0aee5";
 
 const STR = {
   en: {
@@ -13,32 +12,21 @@ const STR = {
     tabMovies: "Movies",
     tabTv: "TV Shows",
     tabCartoons: "Cartoons",
-    tabGames: "Games",
-    panelRentals: "My rentals",
-    panelRentalsHint: "Up to 10 per category",
     searchLabel: "Search catalog",
     searchPlaceholder: "Search titles, cast, genres…",
     nowAvailable: "NEW RELEASES!",
     browseSubMovies: "Fresh hits & blockbusters",
     browseSubTv: "On the air — buzzworthy series",
     browseSubCartoons: "Animated series the whole crew will love",
-    browseSubGames: "Recently released & highly rated titles",
     panelTop5: "My Top 5",
     panelTop5Hint: "Rank your favorites",
-    btnRent: "Rent",
     btnTop5: "Top 5",
-    btnReturn: "Return",
     msgTop5Full: "Screenshot and share your Top 5 with friends!",
     ariaMoveUp: "Move up",
     ariaMoveDown: "Move down",
     ariaRemove: "Remove",
-    gamesCatalogTitle: "Games catalog",
-    gamesCatalogBodyHtml:
-      "Add your RAWG API key in <code>app.js</code> (<code>RAWG_KEY</code>) to load new releases here.",
     loadErrorTitle: "Couldn't load titles",
     loadErrorBody: "Check your connection and try again.",
-    searchUnavailableTitle: "Search unavailable",
-    searchUnavailableBodyHtml: "Add a RAWG API key to search games.",
     searchFailedSub: "Something went wrong — try again.",
     searchErrorTitle: "Search error",
     searchErrorBody: "Check your connection and try again.",
@@ -57,33 +45,21 @@ const STR = {
     tabMovies: "Filmes",
     tabTv: "Séries",
     tabCartoons: "Desenhos",
-    tabGames: "Jogos",
-    panelRentals: "Minhas locações",
-    panelRentalsHint: "Até 10 por categoria",
     searchLabel: "Buscar no catálogo",
     searchPlaceholder: "Buscar títulos, elenco, gêneros…",
     nowAvailable: "LANÇAMENTOS!",
     browseSubMovies: "Grandes estreias e sucessos",
     browseSubTv: "No ar — séries em destaque",
     browseSubCartoons: "Animações para assistir em família",
-    browseSubGames: "Lançamentos recentes e bem avaliados",
     panelTop5: "Meu Top 5",
     panelTop5Hint: "Organize seus favoritos",
-    btnRent: "Alugar",
     btnTop5: "Top 5",
-    btnReturn: "Devolver",
     msgTop5Full: "Capture a tela e mostre seu Top 5 aos amigos!",
     ariaMoveUp: "Subir",
     ariaMoveDown: "Descer",
     ariaRemove: "Remover",
-    gamesCatalogTitle: "Catálogo de jogos",
-    gamesCatalogBodyHtml:
-      "Adicione sua chave da API RAWG em <code>app.js</code> (<code>RAWG_KEY</code>) para carregar lançamentos aqui.",
     loadErrorTitle: "Não foi possível carregar",
     loadErrorBody: "Verifique sua conexão e tente de novo.",
-    searchUnavailableTitle: "Busca indisponível",
-    searchUnavailableBodyHtml:
-      "Adicione uma chave da API RAWG para buscar jogos.",
     searchFailedSub: "Algo deu errado — tente novamente.",
     searchErrorTitle: "Erro na busca",
     searchErrorBody: "Verifique sua conexão e tente de novo.",
@@ -139,10 +115,9 @@ function emptyHubHtml(titleKey, bodyHtmlKey) {
 let tab = "movies";
 
 const state = JSON.parse(localStorage.getItem("hub")) || {
-  movies: { rental: [], top: [] },
-  tv: { rental: [], top: [] },
-  cartoons: { rental: [], top: [] },
-  games: { rental: [], top: [] },
+  movies: { top: [] },
+  tv: { top: [] },
+  cartoons: { top: [] },
 };
 
 const save = () => localStorage.setItem("hub", JSON.stringify(state));
@@ -151,7 +126,6 @@ const browseSubKey = {
   movies: "browseSubMovies",
   tv: "browseSubTv",
   cartoons: "browseSubCartoons",
-  games: "browseSubGames",
 };
 
 function setBrowseSub() {
@@ -203,19 +177,7 @@ async function loadNowAvailable() {
   const loc = tmdbLocale();
 
   try {
-    if (tab === "games") {
-      if (!RAWG_KEY || RAWG_KEY.includes("CHAVE")) {
-        renderGrid([], {
-          emptyHtml: emptyHubHtml("gamesCatalogTitle", "gamesCatalogBodyHtml"),
-        });
-        return;
-      }
-      const r = await fetch(
-        `https://api.rawg.io/api/games?key=${RAWG_KEY}&ordering=-released&page_size=24`,
-      );
-      const d = await r.json();
-      items = (d.results || []).map(mapGame);
-    } else if (tab === "movies") {
+    if (tab === "movies") {
       const r = await fetch(
         `https://api.themoviedb.org/3/movie/now_playing?api_key=${TMDB_KEY}&${loc}&page=1`,
       );
@@ -255,36 +217,19 @@ async function search(e) {
   const loc = tmdbLocale();
 
   try {
-    if (tab === "games") {
-      if (!RAWG_KEY || RAWG_KEY.includes("CHAVE")) {
-        renderGrid([], {
-          emptyHtml: emptyHubHtml(
-            "searchUnavailableTitle",
-            "searchUnavailableBodyHtml",
-          ),
-        });
-        return;
-      }
-      const r = await fetch(
-        `https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(q)}&page_size=24`,
-      );
-      const d = await r.json();
-      items = (d.results || []).map(mapGame);
-    } else {
-      const type = tab === "movies" ? "movie" : "tv";
+    const type = tab === "movies" ? "movie" : "tv";
 
-      const r = await fetch(
-        `https://api.themoviedb.org/3/search/${type}?api_key=${TMDB_KEY}&${loc}&query=${encodeURIComponent(q)}`,
-      );
-      const d = await r.json();
+    const r = await fetch(
+      `https://api.themoviedb.org/3/search/${type}?api_key=${TMDB_KEY}&${loc}&query=${encodeURIComponent(q)}`,
+    );
+    const d = await r.json();
 
-      items = (d.results || [])
-        .filter((i) => i.vote_average >= 3 && i.vote_count >= 500)
-        .map(mapMedia);
+    items = (d.results || [])
+      .filter((i) => i.vote_average >= 3 && i.vote_count >= 500)
+      .map(mapMedia);
 
-      if (tab === "cartoons") {
-        items = items.filter((i) => i.genres?.includes(16));
-      }
+    if (tab === "cartoons") {
+      items = items.filter((i) => i.genres?.includes(16));
     }
   } catch {
     const sub = document.getElementById("browse-sub");
@@ -318,15 +263,6 @@ function mapMedia(i) {
   };
 }
 
-function mapGame(i) {
-  return {
-    id: i.id,
-    title: i.name,
-    year: i.released?.split("-")[0],
-    image: i.background_image,
-  };
-}
-
 function esc(s) {
   return String(s)
     .replace(/&/g, "&amp;")
@@ -356,27 +292,15 @@ function renderGrid(items, opts = {}) {
         <p class="card-title">${esc(item.title)}</p>
         ${item.year ? `<p class="card-meta">${esc(item.year)}</p>` : ""}
         <div class="card-actions">
-          <button type="button" class="btn btn-primary btn-rent">${esc(t("btnRent"))}</button>
-          <button type="button" class="btn btn-ghost btn-top">${esc(t("btnTop5"))}</button>
+          <button type="button" class="btn btn-top3 btn-top">${esc(t("btnTop5"))}</button>
         </div>
       </div>
     `;
 
-    el.querySelector(".btn-rent").onclick = () => rent(item);
     el.querySelector(".btn-top").onclick = () => addTop(item);
 
     grid.appendChild(el);
   });
-}
-
-function rent(item) {
-  const list = state[tab].rental;
-  if (list.length >= 10) return;
-  if (!list.find((i) => i.id === item.id)) {
-    list.push(item);
-    save();
-    render();
-  }
 }
 
 function addTop(item) {
@@ -391,27 +315,7 @@ function addTop(item) {
 
 function render() {
   updateTabButtons();
-  renderRental();
   renderTop();
-}
-
-function renderRental() {
-  const el = document.getElementById("rental");
-  el.innerHTML = "";
-
-  state[tab].rental.forEach((i) => {
-    el.innerHTML += `
-      <div class="item">
-        <span class="item-title">${esc(i.title)}</span>
-        <button type="button" class="btn btn-small" onclick="removeRental(${i.id})">${esc(t("btnReturn"))}</button>
-      </div>`;
-  });
-}
-
-function removeRental(id) {
-  state[tab].rental = state[tab].rental.filter((i) => i.id !== id);
-  save();
-  render();
 }
 
 function renderTop() {
@@ -420,7 +324,7 @@ function renderTop() {
   el.innerHTML = "";
 
   state[tab].top.forEach((i, index) => {
-    const medal = ["🥇", "🥈", "🥉"][index] || "";
+    const medal = ["🥇", "🥈", "🥉", "🏆", "🏆"][index] || "";
 
     el.innerHTML += `
       <div class="item item-ranked">
