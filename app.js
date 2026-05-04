@@ -270,16 +270,24 @@ function esc(s) {
     .replace(/"/g, "&quot;");
 }
 
+let currentGridItems = [];
+
 function renderGrid(items, opts = {}) {
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
+
+  currentGridItems = items;
 
   if (opts.emptyHtml && (!items || items.length === 0)) {
     grid.innerHTML = opts.emptyHtml;
     return;
   }
 
+  const topIds = new Set((state[tab]?.top || []).map((i) => i.id));
+  const topFull = (state[tab]?.top || []).length >= 5;
+
   items.forEach((item) => {
+    const disabled = topFull || topIds.has(item.id);
     const el = document.createElement("div");
     el.className = "card";
 
@@ -292,14 +300,36 @@ function renderGrid(items, opts = {}) {
         <p class="card-title">${esc(item.title)}</p>
         ${item.year ? `<p class="card-meta">${esc(item.year)}</p>` : ""}
         <div class="card-actions">
-          <button type="button" class="btn btn-top3 btn-top">${esc(t("btnTop5"))}</button>
+          <button type="button" class="btn btn-top3 btn-top${disabled ? " disabled" : ""}" ${disabled ? "disabled" : ""} data-item-id="${item.id}">${esc(t("btnTop5"))}</button>
         </div>
       </div>
     `;
 
-    el.querySelector(".btn-top").onclick = () => addTop(item);
+    const button = el.querySelector(".btn-top");
+    if (!disabled) {
+      button.onclick = () => addTop(item);
+    }
 
     grid.appendChild(el);
+  });
+}
+
+function updateGridButtons() {
+  const topIds = new Set((state[tab]?.top || []).map((i) => i.id));
+  const topFull = topIds.size >= 5;
+
+  document.querySelectorAll(".card .btn-top").forEach((button) => {
+    const itemId = Number(button.dataset.itemId);
+    const disabled = topFull || topIds.has(itemId);
+    button.classList.toggle("disabled", disabled);
+    button.disabled = disabled;
+
+    if (disabled) {
+      button.onclick = null;
+    } else {
+      const item = currentGridItems.find((i) => i.id === itemId);
+      if (item) button.onclick = () => addTop(item);
+    }
   });
 }
 
@@ -310,6 +340,7 @@ function addTop(item) {
     list.push(item);
     save();
     render();
+    updateGridButtons();
   }
 }
 
@@ -353,6 +384,7 @@ function removeTop(id) {
   state[tab].top = state[tab].top.filter((i) => i.id !== id);
   save();
   render();
+  updateGridButtons();
 }
 
 function debounce(fn, ms) {
