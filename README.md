@@ -1,37 +1,89 @@
-📼 Blockbuster Entertainment Hub Simulator 
--------
-A blockbuster hub that brings back the 90s video store experience. This project uses the TMDB API to create a functional ecosystem for movies, series and cartoons, with a TOP 5 function.
+# Blockbuster Entertainment Hub Simulator
 
-LIVE DEMO: https://felipewkx.github.io/blockbuster-hub/
---
+Aplicação web inspirada nas clássicas locadoras dos anos 90, recriando a experiência visual e interativa de uma “Blockbuster” digital. O projeto utiliza a API do "TMDB - The Movie Database" para disponibilizar um catálogo dinâmico de filmes, séries e animações, incluindo um sistema personalizado de ranking “Top 5”.
 
+## Demonstração
 
-🎮 Features
------
-Unified Search: Search across the entire TMDB database to find any title in the catalog.
+Acesse a aplicação: https://felipewkx.github.io/blockbuster-hub/
 
-Dedicated Hubs: Specialized pages for:
+---
 
-Movies: The latest Hollywood hits.
+## Sobre o Projeto
 
-TV Series: Binge-worthy shows.
+O objetivo deste projeto é recriar a experiência nostálgica das locadoras de vídeo utilizando tecnologias web modernas e integração com APIs externas.
 
-Cartoons: Animated classics for all ages.
+A aplicação permite explorar conteúdos da base de dados do TMDB de forma organizada, com páginas dedicadas para diferentes categorias de entretenimento e funcionalidades de personalização para o usuário.
 
-Custom Top 5: Every category page features a "Top 5" ranking system where users can curate and save their favorite titles.
+---
 
-Global Translation: A toggle button to switch the entire UI and API data between English and Portuguese (PT-BR).
+## Funcionalidades
 
-Persistent Storage: All Top 5 lists, and language settings are saved to localStorage.
+* Busca unificada no catálogo do TMDB
+* Navegação por categorias
+* Página dedicada para filmes
+* Página dedicada para séries
+* Página dedicada para desenhos e animações
+* Sistema personalizado de ranking “Top 5”
+* Salvamento local das listas favoritas
+* Alternância de idioma entre inglês e português (PT-BR)
+* Persistência de preferências via LocalStorage
+* Interface inspirada no visual retrô das locadoras dos anos 90
 
-🛠️ Tech Stack
------
-HTML5: Modular structure for multi-page navigation.
+---
 
-CSS3: Retro "Blockbuster" branding using CSS Variables and Grid.
+## Objetivos do Projeto
 
-JavaScript (ES6+): - Fetch API: Asynchronous calls to TMDB.
+* Recriar visualmente a experiência das locadoras clássicas
+* Consumir e manipular dados de APIs externas
+* Demonstrar integração frontend com persistência local
+* Desenvolver uma aplicação dinâmica utilizando JavaScript moderno
+* Criar uma interface temática e responsiva
 
-Data Persistence: LocalStorage 
+---
 
-State Management: Handling language toggles and ranking updates.
+## Tecnologias Utilizadas
+
+* HTML5
+* CSS3
+* JavaScript (ES6+)
+* Fetch API
+* LocalStorage
+* API do TMDB
+
+---
+
+## Estrutura da Aplicação
+
+A aplicação foi organizada em múltiplas páginas e módulos independentes, permitindo uma navegação simples entre as categorias disponíveis.
+
+O gerenciamento de estado é realizado no frontend, incluindo:
+
+* Controle de idioma
+* Atualização dos rankings
+* Persistência de dados locais
+* Manipulação dinâmica da interface
+
+---
+
+## Diferenciais
+
+* Interface temática inspirada nas locadoras dos anos 90
+* Integração com API externa em tempo real
+* Sistema customizado de ranking pessoal
+* Suporte bilíngue
+* Persistência local de preferências do usuário
+* Estrutura modular e escalável
+
+---
+
+## Autor
+
+Desenvolvido por Felipe Walker
+
+* LinkedIn: https://linkedin.com/in/felipewkx
+
+---
+
+## Observação
+
+Este projeto faz parte do meu portfólio e demonstra o desenvolvimento de aplicações web interativas utilizando integração com APIs externas, gerenciamento de estado no frontend, persistência local de dados e construção de interfaces temáticas responsivas.
