@@ -1,13 +1,13 @@
 :root {
-  --bg-deep: #07060a;
-  --bg-panel: rgba(18, 16, 28, 0.72);
-  --bg-panel-solid: #12101c;
-  --border: rgba(255, 255, 255, 0.08);
-  --text: #f4f2ff;
-  --muted: #9d96b8;
-  --accent: #e50914;
+  --bg-deep: #F4F2FF;
+  --bg-panel: rgba(244, 242, 255, 0.72);
+  --bg-panel-solid: #FFFFFF;
+  --border: rgba(0, 0, 0, 0.08);
+  --text: #07060A;
+  --muted: #5C5470;
+  --accent: #E50914;
   --accent-soft: rgba(229, 9, 20, 0.35);
-  --glow: rgba(124, 92, 255, 0.25);
+  --glow: rgba(229, 9, 20, 0.25);
   --radius: 14px;
   --radius-sm: 10px;
   --header-h: 72px;
@@ -42,7 +42,7 @@ body {
     radial-gradient(ellipse 60% 40% at 100% 50%,
       rgba(229, 9, 20, 0.08),
       transparent 50%),
-    linear-gradient(180deg, #0d0b12 0%, var(--bg-deep) 45%, #050408 100%);
+    linear-gradient(180deg, #FFFFFF 0%, var(--bg-deep) 45%, #CCCCCC 100%);
   pointer-events: none;
 }
 
@@ -70,7 +70,7 @@ body {
   gap: 1rem 1.25rem;
   padding: 0.75rem 1.25rem;
   min-height: var(--header-h);
-  background: rgba(7, 6, 10, 0.82);
+  background: rgba(244, 242, 255, 0.82);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -87,9 +87,15 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent) 0%, #ffffff 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, #000000 100%);
   box-shadow: 0 0 24px var(--accent-soft);
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--bg-deep);
 }
 
 .brand-text h1 {
@@ -147,8 +153,8 @@ body {
 
 .lang-btn.active {
   color: #fff;
-  background: rgba(124, 92, 255, 0.35);
-  box-shadow: 0 0 16px rgba(124, 92, 255, 0.2);
+  background: var(--accent);
+  box-shadow: 0 0 16px var(--accent-soft);
 }
 
 .tabs {
@@ -183,8 +189,8 @@ body {
 
 .tabs button.active {
   color: #fff;
-  background: rgba(229, 9, 20, 0.18);
-  border-color: rgba(229, 9, 20, 0.45);
+  background: var(--accent);
+  border-color: var(--accent);
   box-shadow: 0 0 20px var(--accent-soft);
 }
 
@@ -245,7 +251,7 @@ body {
   min-width: 0;
   padding: 1rem 1.25rem 2rem;
   background: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.02) 0%,
+      rgba(0, 0, 0, 0.02) 0%,
       transparent 28%);
 }
 
@@ -271,7 +277,7 @@ body {
   font-family: inherit;
   font-size: 0.9375rem;
   color: var(--text);
-  background: rgba(12, 10, 20, 0.85);
+  background: rgba(255, 204, 0, 0.7);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   outline: none;
@@ -285,8 +291,8 @@ body {
 }
 
 #search:focus {
-  border-color: rgba(124, 92, 255, 0.5);
-  box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.15);
+  border-color: rgba(255, 204, 0, 0.8);
+  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.3);
 }
 
 /* —— Browse section —— */
@@ -306,7 +312,7 @@ body {
   font-size: clamp(1.35rem, 3vw, 1.75rem);
   font-weight: 700;
   letter-spacing: -0.03em;
-  background: linear-gradient(90deg, #fff 0%, #c9c2e0 100%);
+  background: linear-gradient(90deg, #000 0%, #333333 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -398,7 +404,7 @@ body {
 .card-media {
   position: relative;
   aspect-ratio: 2 / 3;
-  background: linear-gradient(160deg, #1e1c2a, #0f0e14);
+  background: linear-gradient(160deg, #E50914, #000000);
 }
 
 .card img {
@@ -479,17 +485,40 @@ body {
   cursor: pointer;
   transition:
     background 0.2s,
-    transform 0.15s;
+    transform 0.15s,
+    box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .btn:active {
   transform: scale(0.98);
 }
 
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease-in-out;
+  border-radius: 50%;
+  z-index: -1;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+.btn:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
 .btn-primary {
   padding: 0.45rem 0.5rem;
   color: #fff;
   background: var(--accent);
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
 }
 
 .btn-primary:hover {
@@ -499,12 +528,14 @@ body {
 .btn-ghost {
   padding: 0.45rem 0.5rem;
   color: var(--text);
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0.25);
 }
 
 .btn-top3 {
@@ -512,6 +543,7 @@ body {
   color: #fff;
   background: var(--accent);
   border: 1px solid rgba(229, 9, 20, 0.45);
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
 }
 
 .btn-top3:hover {
@@ -521,8 +553,8 @@ body {
 .btn-top3.disabled,
 .btn-top3:disabled {
   color: var(--muted);
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.12);
   box-shadow: none;
   cursor: not-allowed;
 }
@@ -530,15 +562,16 @@ body {
 .btn-top3.disabled:hover,
 .btn-top3:disabled:hover {
   filter: none;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.08);
 }
 
 .btn-small {
   padding: 0.35rem 0.55rem;
   font-size: 0.7rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
   color: var(--text);
   border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .btn-small:hover {
@@ -550,13 +583,14 @@ body {
   padding: 0.25rem 0.35rem;
   font-size: 0.85rem;
   line-height: 1;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.08);
   color: var(--text);
   border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .btn-icon:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.14);
 }
 
 .btn-icon.danger:hover {
@@ -571,7 +605,7 @@ body {
   justify-content: space-between;
   gap: 0.5rem;
   padding: 0.6rem 0.65rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(0, 0, 0, 0.04);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
 }
