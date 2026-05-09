@@ -1,6 +1,10 @@
 # Blockbuster Entertainment Hub Simulator
 
-<!-- Versão em Inglês (Sempre visível) -->
+<details>
+  <summary><b>Click to read in English</b></summary>
+  
+## The Project
+  
 A web application inspired by classic 90s video rental stores, recreating the visual and interactive experience of a digital Blockbuster. The project utilizes the TMDB API (The Movie Database) to provide a dynamic catalog of movies, series, and animations, including a personalized Top 5 ranking system.
 ## Demo
 Access the application: https://felipewkx.github.io/blockbuster-hub/
@@ -68,10 +72,12 @@ Developed by Felipe Walker
 ## Note
 This project is part of my portfolio and demonstrates the development of interactive web applications using external API integration, frontend state management, local data persistence, and the construction of responsive themed interfaces.
 
-<details>
-  <summary><b>Clique para ver em Português</b></summary>
+</details>
 
-# LOCADORA DO FELIPE
+<details>
+  <summary><b>Clique para ler em Português</b></summary>
+
+## O Projeto
 
 Aplicação web inspirada nas clássicas locadoras dos anos 90, recriando a experiência visual e interativa de uma Blockbuster digital. O projeto utiliza a API do TMDB - The Movie Database para disponibilizar um catálogo dinâmico de filmes, séries e animações, incluindo um sistema personalizado de ranking Top 5.
 ## Demonstração
