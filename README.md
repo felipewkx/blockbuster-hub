@@ -1,4 +1,7 @@
-## Blockbuster Entertainment Hub Simulator
+# Blockbuster Entertainment Hub Simulator
+
+[Português](README.pt-BR.md) | English
+
 A web application inspired by classic 90s video rental stores, recreating the visual and interactive experience of a digital Blockbuster. The project utilizes the TMDB API (The Movie Database) to provide a dynamic catalog of movies, series, and animations, including a personalized Top 5 ranking system.
 ## Demo
 Access the application: https://felipewkx.github.io/blockbuster-hub/
