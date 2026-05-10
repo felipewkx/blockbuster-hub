@@ -1,11 +1,11 @@
 :root {
-  --bg-deep: #F4F2FF;
+  --bg-deep: #f4f2ff;
   --bg-panel: rgba(244, 242, 255, 0.72);
-  --bg-panel-solid: #FFFFFF;
+  --bg-panel-solid: #ffffff;
   --border: rgba(0, 0, 0, 0.08);
-  --text: #07060A;
-  --muted: #5C5470;
-  --accent: #E50914;
+  --text: #07060a;
+  --muted: #5c5470;
+  --accent: #e50914;
   --accent-soft: rgba(229, 9, 20, 0.35);
   --glow: rgba(229, 9, 20, 0.25);
   --radius: 14px;
@@ -39,10 +39,12 @@ body {
   z-index: -1;
   background:
     radial-gradient(ellipse 120% 80% at 50% -20%, var(--glow), transparent 55%),
-    radial-gradient(ellipse 60% 40% at 100% 50%,
+    radial-gradient(
+      ellipse 60% 40% at 100% 50%,
       rgba(229, 9, 20, 0.08),
-      transparent 50%),
-    linear-gradient(180deg, #FFFFFF 0%, var(--bg-deep) 45%, #CCCCCC 100%);
+      transparent 50%
+    ),
+    linear-gradient(180deg, #ffffff 0%, var(--bg-deep) 45%, #cccccc 100%);
   pointer-events: none;
 }
 
@@ -241,7 +243,7 @@ body {
 .panel-msg {
   margin: 0.75rem 0 0;
   font-size: 0.8125rem;
-  color: #c4f0a8;
+  color: #ff0000;
   line-height: 1.4;
 }
 
@@ -250,9 +252,7 @@ body {
   flex-direction: column;
   min-width: 0;
   padding: 1rem 1.25rem 2rem;
-  background: linear-gradient(180deg,
-      rgba(0, 0, 0, 0.02) 0%,
-      transparent 28%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, transparent 28%);
 }
 
 /* —— Search —— */
@@ -404,7 +404,7 @@ body {
 .card-media {
   position: relative;
   aspect-ratio: 2 / 3;
-  background: linear-gradient(160deg, #E50914, #000000);
+  background: linear-gradient(160deg, #e50914, #000000);
 }
 
 .card img {
@@ -434,10 +434,12 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   padding: 0.65rem;
-  background: linear-gradient(180deg,
-      transparent 0%,
-      transparent 35%,
-      rgba(0, 0, 0, 0.75) 100%);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
   opacity: 1;
 }
 
@@ -458,7 +460,8 @@ body {
   font-weight: 600;
   line-height: 1.25;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2; /* Para compatibilidade com navegadores Chrome, Safari e Edge antigos */
+  line-clamp: 2; /* Propriedade padrão que remove o aviso do VS Code */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
