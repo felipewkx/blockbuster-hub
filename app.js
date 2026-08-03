@@ -33,6 +33,7 @@ const STR = {
     noMatchesTitle: "No matches",
     noMatchesBodyHtml:
       "Try another title or clear search to see <strong>Now Available!</strong>",
+    maintenanceTitle: "We are currently undergoing maintenance!",
   },
   pt: {
     docTitle: "Locadora do Felipe",
@@ -66,6 +67,7 @@ const STR = {
     noMatchesTitle: "Nada encontrado",
     noMatchesBodyHtml:
       "Tente outro título ou limpe a busca para ver <strong>Agora disponível!</strong>",
+    maintenanceTitle: "Estamos em manutenção no momento!",
   },
 };
 
@@ -113,6 +115,8 @@ function emptyHubHtml(titleKey, bodyHtmlKey) {
 }
 
 let tab = "movies";
+
+let maintenanceMode = false;
 
 const state = JSON.parse(localStorage.getItem("hub")) || {
   movies: { top: [] },
@@ -172,34 +176,34 @@ async function loadNowAvailable() {
   const q = document.getElementById("search").value.trim();
   if (q) return;
 
+  if (maintenanceMode) {
+    showMaintenance();
+    return;
+  }
+
   setBrowseSub();
   let items = [];
   const loc = tmdbLocale();
 
   try {
     if (tab === "movies") {
-      const r = await fetch(
+      const d = await tmdbFetch(
         `https://api.themoviedb.org/3/movie/now_playing?api_key=${TMDB_KEY}&${loc}&page=1`,
       );
-      const d = await r.json();
       items = (d.results || []).filter((i) => i.vote_count >= 50).map(mapMedia);
     } else if (tab === "tv") {
-      const r = await fetch(
+      const d = await tmdbFetch(
         `https://api.themoviedb.org/3/tv/on_the_air?api_key=${TMDB_KEY}&${loc}&page=1`,
       );
-      const d = await r.json();
       items = (d.results || []).filter((i) => i.vote_count >= 50).map(mapMedia);
     } else if (tab === "cartoons") {
-      const r = await fetch(
+      const d = await tmdbFetch(
         `https://api.themoviedb.org/3/discover/tv?api_key=${TMDB_KEY}&${loc}&with_genres=16&sort_by=popularity.desc&vote_count.gte=100&page=1`,
       );
-      const d = await r.json();
       items = (d.results || []).map(mapMedia);
     }
   } catch {
-    renderGrid([], {
-      emptyHtml: emptyHubHtml("loadErrorTitle", "loadErrorBody"),
-    });
+    showMaintenance();
     return;
   }
 
@@ -213,16 +217,20 @@ async function search(e) {
     return;
   }
 
+  if (maintenanceMode) {
+    showMaintenance();
+    return;
+  }
+
   let items = [];
   const loc = tmdbLocale();
 
   try {
     const type = tab === "movies" ? "movie" : "tv";
 
-    const r = await fetch(
+    const d = await tmdbFetch(
       `https://api.themoviedb.org/3/search/${type}?api_key=${TMDB_KEY}&${loc}&query=${encodeURIComponent(q)}`,
     );
-    const d = await r.json();
 
     items = (d.results || [])
       .filter((i) => i.vote_average >= 3 && i.vote_count >= 500)
@@ -232,11 +240,7 @@ async function search(e) {
       items = items.filter((i) => i.genres?.includes(16));
     }
   } catch {
-    const sub = document.getElementById("browse-sub");
-    if (sub) sub.textContent = t("searchFailedSub");
-    renderGrid([], {
-      emptyHtml: emptyHubHtml("searchErrorTitle", "searchErrorBody"),
-    });
+    showMaintenance();
     return;
   }
 
@@ -261,6 +265,22 @@ function mapMedia(i) {
       : "",
     genres: i.genre_ids,
   };
+}
+
+async function tmdbFetch(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`TMDB HTTP ${r.status}`);
+  const d = await r.json();
+  if (!d || typeof d !== "object" || !Array.isArray(d.results)) {
+    throw new Error("TMDB invalid payload");
+  }
+  return d;
+}
+
+function showMaintenance() {
+  maintenanceMode = true;
+  const grid = document.getElementById("grid");
+  grid.innerHTML = `<div class="hub-maintenance"><p class="hub-maintenance-title">${esc(t("maintenanceTitle"))}</p></div>`;
 }
 
 function esc(s) {
