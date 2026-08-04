@@ -19,7 +19,7 @@
       <span class="brand-mark" aria-hidden="true">F</span>
       <div class="brand-text">
         <h1 data-i18n="brandTitle">FELIPE'S BLOCKBUSTER</h1>
-        <p class="tagline" data-i18n="tagline">Stream-style discovery &amp; rentals</p>
+        <p class="tagline" data-i18n="tagline">Stream-style discovery & rentals</p>
       </div>
     </div>
     <div class="header-actions">
@@ -52,7 +52,7 @@
       <section class="browse-section" aria-labelledby="browse-heading">
         <div class="section-head">
           <h2 id="browse-heading" class="section-title" data-i18n="nowAvailable">Now Available!</h2>
-          <p class="section-sub" id="browse-sub">New &amp; notable releases</p>
+          <p class="section-sub" id="browse-sub">New & notable releases</p>
         </div>
         <div id="grid" class="grid"></div>
       </section>
@@ -64,6 +64,31 @@
       <div id="top" class="panel-list"></div>
       <p id="msg" class="panel-msg"></p>
     </aside>
+  </div>
+
+  <!-- Image Modal -->
+  <div class="modal-overlay" id="modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button type="button" class="modal-close" id="modal-close" aria-label="Close">×</button>
+      <div class="modal-carousel">
+        <button type="button" class="carousel-arrow carousel-prev" id="carousel-prev" aria-label="Previous image">‹</button>
+        <div class="carousel-stage">
+          <div class="carousel-loading" id="carousel-loading">Loading images...</div>
+          <div class="carousel-error" id="carousel-error" hidden>Couldn't load images</div>
+          <img id="carousel-img" alt="" hidden />
+          <p class="carousel-count" id="carousel-count" hidden></p>
+        </div>
+        <button type="button" class="carousel-arrow carousel-next" id="carousel-next" aria-label="Next image">›</button>
+      </div>
+      <div class="modal-info">
+        <h2 id="modal-title"></h2>
+        <p class="modal-meta" id="modal-meta"></p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-top3" id="modal-add">Top 5</button>
+          <button type="button" class="btn btn-remove" id="modal-remove">Remove from Top 5</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="app.js"></script>
