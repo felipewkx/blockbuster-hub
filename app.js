@@ -210,6 +210,7 @@ async function loadNowAvailable() {
   }
 
   setBrowseSub();
+  renderSkeleton();
   let items = [];
   const loc = tmdbLocale();
 
@@ -252,6 +253,8 @@ async function search(e) {
 
   let items = [];
   const loc = tmdbLocale();
+
+  renderSkeleton();
 
   try {
     const type = tab === "movies" ? "movie" : "tv";
@@ -320,6 +323,25 @@ function esc(s) {
 
 let currentGridItems = [];
 
+function renderSkeleton() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  const count = 8;
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement("div");
+    s.className = "card skeleton-card";
+    s.setAttribute("aria-hidden", "true");
+    s.innerHTML = `
+      <div class="card-media skeleton-media"></div>
+      <div class="card-info skeleton-info">
+        <div class="skeleton-line skeleton-line-title"></div>
+        <div class="skeleton-line skeleton-line-meta"></div>
+        <div class="skeleton-line skeleton-line-btn"></div>
+      </div>`;
+    grid.appendChild(s);
+  }
+}
+
 function renderGrid(items, opts = {}) {
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
@@ -348,10 +370,14 @@ function renderGrid(items, opts = {}) {
 
     el.innerHTML = `
       <div class="card-media">
-        <img loading="lazy" alt="${esc(item.title)}" src="${item.image ? esc(item.image) : ""}">
-        ${!item.image ? `<div class="card-placeholder">${esc(item.title)}</div>` : ""}
+        ${
+          item.image
+            ? `<img loading="lazy" alt="${esc(item.title)}" src="${esc(item.image)}">`
+            : `<div class="card-placeholder">${esc(item.title)}</div>`
+        }
+        <div class="card-shine" aria-hidden="true"></div>
       </div>
-      <div class="overlay">
+      <div class="card-info">
         <p class="card-title">${esc(item.title)}</p>
         ${item.year ? `<p class="card-meta">${esc(item.year)}</p>` : ""}
         <div class="card-actions">
@@ -453,17 +479,31 @@ function renderTop() {
 
   state[tab].top.forEach((i, index) => {
     const medal = ["🥇", "🥈", "🥉", "🏆", "🏆"][index] || "";
+    const thumb = i.image
+      ? `<span class="item-thumb" style="background-image:url('${esc(i.image)}')" aria-hidden="true"></span>`
+      : `<span class="item-thumb item-thumb-fallback" aria-hidden="true">${esc(i.title[0] || "?")}</span>`;
+
+    const first = index === 0;
+    const last = index === state[tab].top.length - 1;
 
     el.innerHTML += `
-      <div class="item item-ranked">
-        <span class="item-title">${medal} ${index + 1}. ${esc(i.title)}${i.year ? ` <span class="item-year">(${esc(i.year)})</span>` : ""}</span>
+      <div class="item item-ranked" style="--rank:${index + 1}">
+        ${thumb}
+        <div class="item-main">
+          <span class="item-title">${medal} ${esc(i.title)}${i.year ? ` <span class="item-year">(${esc(i.year)})</span>` : ""}</span>
+          <div class="item-index">#${index + 1}</div>
+        </div>
         <div class="item-actions">
-          <button type="button" class="btn btn-icon" onclick="move(${index},-1)" aria-label="${esc(t("ariaMoveUp"))}">↑</button>
-          <button type="button" class="btn btn-icon" onclick="move(${index},1)" aria-label="${esc(t("ariaMoveDown"))}">↓</button>
-          <button type="button" class="btn btn-icon danger" onclick="removeTop(${i.id})" aria-label="${esc(t("ariaRemove"))}">×</button>
+          <button type="button" class="btn btn-icon${first ? " disabled" : ""}" ${first ? "disabled" : ""} onclick="move(${index},-1)" aria-label="${esc(t("ariaMoveUp"))}" title="${esc(t("ariaMoveUp"))}">↑</button>
+          <button type="button" class="btn btn-icon${last ? " disabled" : ""}" ${last ? "disabled" : ""} onclick="move(${index},1)" aria-label="${esc(t("ariaMoveDown"))}" title="${esc(t("ariaMoveDown"))}">↓</button>
+          <button type="button" class="btn btn-icon danger" onclick="removeTop(${i.id})" aria-label="${esc(t("ariaRemove"))}" title="${esc(t("ariaRemove"))}">×</button>
         </div>
       </div>`;
   });
+
+  if (state[tab].top.length === 0) {
+    el.innerHTML = `<div class="top-empty"><span class="top-empty-star" aria-hidden="true">★</span><p>${esc(t("panelTop5Hint"))}</p></div>`;
+  }
 
   msg.innerText = state[tab].top.length === 5 ? t("msgTop5Full") : "";
 }
