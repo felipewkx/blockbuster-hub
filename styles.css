@@ -855,7 +855,7 @@ body {
   font-weight: var(--fw-display);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--gold-2);
+  color: var(--gold);
 }
 
 .panel-title::first-letter {
